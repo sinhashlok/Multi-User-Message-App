@@ -1,7 +1,7 @@
 "use client";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 import { checkUserExists } from "@/hooks/useCheckUserExsits";
@@ -12,6 +12,7 @@ const CreateNewUser = () => {
   const router = useRouter();
   const { signOut } = useAuth();
   const { user } = useUser();
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   const id = user?.id;
   const username = user?.username;
@@ -23,19 +24,21 @@ const CreateNewUser = () => {
   useEffect(() => {
     async function callCheckUserExists() {
       try {
-        const isUserExists = await checkUserExists({ userId: id || "" });
+        const isUserExists = await checkUserExists({ userId: user?.id || "" });
         if (isUserExists) {
           return router.push("/dashboard");
         }
+        setDataLoaded(true);
       } catch (error) {
         toast.error("Something went wrong. Please try again later");
-        signOut();
+        signOut({ redirectUrl: "/" });
       }
     }
-    callCheckUserExists();
-  }, []);
 
-  if (!user) {
+    callCheckUserExists();
+  }, [user]);
+
+  if (!dataLoaded) {
     return (
       <div className="h-full flex items-center justify-center mx-4">
         <FormSkeleton />
