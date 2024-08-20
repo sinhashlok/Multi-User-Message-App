@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className="h-full w-full ">
+        <body className="font-poppins">
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

@@ -13,7 +13,6 @@ model User {
   email    String
   name     String
   username String
-  password String?
   imgUrl   String?
   phone    String
 }

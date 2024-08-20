@@ -12,7 +12,7 @@ export default clerkMiddleware((auth, req) => {
   if (auth().userId) {
     if (isPublicRoute(req)) {
       console.log("LoggedIn, and in public route");
-      return NextResponse.redirect(new URL("/dashboard/userDetails", req.url));
+      return NextResponse.redirect(new URL("/userDetails", req.url));
     }
   }
 
