@@ -1,5 +1,4 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 
 const isPublicRoute = createRouteMatcher([
@@ -12,7 +11,7 @@ export default clerkMiddleware((auth, req) => {
   if (auth().userId) {
     if (isPublicRoute(req)) {
       console.log("LoggedIn, and in public route");
-      return NextResponse.redirect(new URL("/userDetails", req.url));
+      return NextResponse.redirect(new URL("/user-verification", req.url));
     }
   }
 

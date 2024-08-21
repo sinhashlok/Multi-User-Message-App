@@ -1,18 +1,16 @@
 "use server";
 
 import prisma from "@/lib/db";
+import { currentUser } from "@clerk/nextjs/server";
 
-interface checkUserExistsProps {
-  userId: string;
-}
-
-export async function checkUserExists({ userId }: checkUserExistsProps) {
+export async function checkUserExists() {
   try {
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
+    const user = await currentUser();
+    const userExist = await prisma.user.findUnique({
+      where: { id: user?.id },
     });
 
-    if (!user) {
+    if (!userExist) {
       return false;
     }
 
